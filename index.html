@@ -7,7 +7,7 @@
     <meta name="keywords" content="盖范" />
     <meta name="description" content="盖范" />
     <meta content="target-densitydpi=device-dpi,width=750" name="viewport">
-    <title>那些陪伴90后成长的动画片</title>
+    <title>a那些陪伴90后成长的动画片</title>
     <style type="text/css">
         * {
             margin: 0;
@@ -319,14 +319,22 @@
         </audio>
     </div>
     <script type="text/javascript">
-                //document.addEventListener('WeixinJSBridgeReady', function() {
+    var share = {
+        img: 'http://static.17getfun.com/cartoongame/img/pic/1.jpg',
+        url: location.href,
+        desc: 'de',
+        title: 't'
+    }
+    console.log(share)
+                document.addEventListener('WeixinJSBridgeReady', function() {
                     alert(WeixinJSBridge)
+
                     WeixinJSBridge.on('menu:share:timeline', function() {
                         WeixinJSBridge.invoke('shareTimeline', {
-                            "img_url": 'http://static.17getfun.com/cartoongame/img/pic/1.jpg',
-                            "link": location.href,
-                            "desc": 'hahahahaha',
-                            "title": 'heieheihei'
+                            "img_url": share.img,
+                            "link": share.url,
+                            "desc": share.desc,
+                            "title": share.title
                         }, function() {
                             //self.shareConfig.callback();
                         });
@@ -340,8 +348,8 @@
                         }, function() {
                             self.shareConfig.callback();
                         });
-                    });
-                    WeixinJSBridge.on('menu:share:weibo', function() {
+                    });*/
+                    /*WeixinJSBridge.on('menu:share:weibo', function() {
                         WeixinJSBridge.invoke('shareWeibo', {
                             "desc": self.shareConfig.wbText,
                             "url": self.shareConfig.url
@@ -369,7 +377,7 @@
                             self.shareConfig.callback();
                         });
                     });*/
-                //}, false);
+                }, false);
     </script>
     <script type="text/javascript" src="http://static.17getfun.com/cartoongame/zepto.min.js"></script>
     <script type="text/javascript">
