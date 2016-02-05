@@ -1,164 +1,796 @@
-
-<!doctype html>
+<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>态度最热点</title>
-        <meta name="author" content="网易">
-        <meta name="Copyright" content="网易版权所有">
-        <meta name="viewport" content="target-densitydpi=device-dpi,width=750">
-        <meta name="format-detection" content="email=no,address=no,telephone=no" />
-        <script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="盖范" />
+    <meta name="copyright" content="盖范" />
+    <meta name="keywords" content="盖范" />
+    <meta name="description" content="盖范" />
+    <meta content="target-densitydpi=device-dpi,width=750" name="viewport">
+    <title>那些陪伴90后成长的动画片</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            -webkit-user-select: text;
+        }
+        *, :after, :before {
+            -webkit-box-sizing: border-box;
+            -webkit-text-size-adjust: none;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+        textarea,input{
+            resize: none;
+            outline: none;
+            -webkit-appearance: none;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background: #fff;
+            overflow: scroll;
+        }
+        body, html {
+            text-align: left;
+            height: 100%;
+            width: 100%;
+            font-family: "Helvetica Neue",Arial, HelveticaNeue, "Helvetica-Neue", Helvetica, "BBAlpha Sans", sans-serif;
+            font-size: 16px;
+            font-weight: normal;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-box-align: center;
+            }
+        body{
+            width: 750px;
+            color: #fff;
+            /*opacity: 0;
+            -webkit-transition: opacity 500ms ease-in;*/
+            background-color: #287588;
+        }
+        #shareBoxLayout{
+            display: none;
+            position: fixed;
+            z-index: 99999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: url(img/sharelayout.png) center 150px no-repeat rgba(0,0,0,.8);
+            background-size: 75% auto;
+        }
+        .cover-wrap {
+            width: 100%;
+            height: 100%;
+            min-height: 1150px;
+            display: -webkit-box;
+            -webkit-box-align: center;
+            -webkit-transition: all .25s ease;
+        }
+        .cover-content {
+            width: 100%;
+            height: 1150px;
+            position: relative;
+            background: url(img/cover.jpg) no-repeat center center;
+        }
+        .cover-start {
+            position: absolute;
+            width: 380px;
+            height: 320px;
+            left: 185px;
+            bottom: 0;
+        }
+        .music-player {
+            position: absolute;
+            left: -9999px;
+            top: -9999px;
+        }
+        .music-control {
+            position: absolute;
+            width: 68px;
+            height: 68px;
+            top: 10px;
+            right: 25px;
+        }
+        .music-on {
+            background: url(data:image/png;base64,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) no-repeat;
+        }
+        .music-off {
+            background: url(data:image/png;base64,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) no-repeat;
+        }
+        .game-wrap {
+            width: 100%;
+            height: 100%;
+            min-height: 1210px;
+            display: -webkit-box;
+            -webkit-box-align: center;
+            -webkit-transition: all .25s ease-out;
+        }
+        .game-content {
+            width: 100%;
+            height: 1210px;
+            background: url(img/questionbg.png) no-repeat center center;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-box-align: center;
+            position: relative;
+            padding-top: 250px;
+        }
+        .game-help {
+            width: 179px;
+            height: 104px;
+            position: absolute;
+            top: 26px;
+            right: 86px;
+            background: url(img/help.png) no-repeat;
+            -webkit-animation-name: shake;
+            -webkit-animation-duration: .5s;
+            -webkit-animation-fill-mode: both;
+            -webkit-animation-iteration-count: 2;
+            -webkit-animation-delay: .7s;
+            -webkit-animation-timing-function: linear;
+            -webkit-transform-origin: 50% 100%;
+        }
+
+        @-webkit-keyframes shake {
+            0% {
+                -webkit-transform: rotate(0);
+            }
+            30% {
+                -webkit-transform: rotate(3deg);
+            }
+            60% {
+                -webkit-transform: rotate(-3deg);
+            }
+            100% {
+                -webkit-transform: rotate(0);
+            }
+        }
+        .game-question-box {
+            width: 570px;
+            height: 780px;
+            overflow: hidden;
+        }
+        .game-question-list {
+            -webkit-transition: all .5s ease-out;
+            -webkit-transform: translateZ(0);
+        }
+        .game-question-item {
+            width: 570px;
+            height: 780px;
+            float: left;
+            margin-right: 30px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-box-align: center;
+        }
+        .game-hint {
+            font-size: 34px;
+            width: 550px;
+            height: 155px;
+            word-break: break-all;
+        }
+        .game-pic {
+            width: 562px;
+            height: 288px;
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        .game-pic img {
+            width: 100%;
+        }
+        .game-pic-mask {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            background: url(img/gamepic.png) no-repeat;
+        }
+        .game-option-list {
+            margin-top: 26px;
+        }
+        .game-option-item {
+            margin-bottom: 12px;
+            width: 564px;
+            height: 80px;
+            border-radius: 6px;
+            line-height: 80px;
+            color: #144956;
+            font-size: 32px;
+            font-weight: bold;
+            background: #c7edf6;
+            position: relative;
+            text-align: center;
+        }
+        .game-option-right,
+        .game-option-showanswer .game-option-rightanswer {
+            background: #40dee4;
+        }
+        .game-option-right:after {
+            content: ' ';
+            position: absolute;
+            left: 28px;
+            top: 3px;
+            width: 72px;
+            height: 71px;
+            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABHCAMAAACTZfGgAAAAnFBMVEUAAAAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQAgrQCmcXqTAAAAM3RSTlMAAvsG3fYJ8evAHePFfteSayMMsUA7NBvSyWTnzUcoGBUQoXksl3ReUy+rTbmdWYynhYFs9htjAAADtUlEQVRYw52Y56KiMBCFA0gTpAnYABWw12ve/9323p2EEgMGzy82Ll/KnJkJF4lIWWdxHEVx7CvoK0n+cZLbIxVX0peDIduja+v4XeEgil/YMubLFacE3gJ360cUM3N13CPdF8NsXN6W5JWTJOYicUbTk1iUPGY1q+vDu5RbNFC+2YRY+WGMvlJq1BRnkqFvtZerI3lG6Hv9VJgbPzDrdO/muTs5ZFIfp6Ac+8Q1xWvesMD5rnVx7nQ5e950/pk1hTEJuJxMJeGOuOaCKDCovcIpEwn8OPL5YcBczd8PYUKcM0NcPTBf6pKNhwrjXfYPyXrzYnnYu2ajPLntE3VhdNltMRXrj8qhwcGuSHmTtIUpzL4qV2rtNSaUdGuQPAh8OagIe3SDRT0IC52iYSpHhJRWRw1mG5xeszkx1JoMHCD0kjhiubB2AUIbB7f24g6t6QV9e2YB6QLjUOnvwhwP3v7bUAin4kCyQCL5wvvCNQg9Gg4MIPiiR3SXSbWBJIXQOX9vZ2B/Qc5FbqflsW6/J8hkwbJOOCufGhM8kP8+RmSlIgpVYp2SOTJdGQSKdeDocaO/AzscAioNUoZaSXCmN4JS9Iwyygk5drgiNIbT+9yGiY3lC7NO+r4CPyufUnREOEe23kMgNYRWIs6mCYoPiBXMkCEEN4d6IuU1X7D/fUvbo8diaK7GCO3+P7zoOPx70r7D0SvcHr3LpuXMa1fsQMYsSYNFs3h2RSUEVaOn8faSciVDD8STQ89YAn9UUWWnV6ZkYMevEGD3ze/TE/oKE2hKkp5MC2N9AVlT30T06noxbpKkGwaduRxaSOxGgzwgHsklj9Mux+5g2whVe5tLHBK9x5laV6dcNWyYMp0OSE3ZWmfJhMTZAhUiuJC6SEn3TduE5G93hjvik+ab7prZzkDNgooecEmjdSdHSqD0akyz2iEOyRr3NUs2Cxz2vIFUN4y+O6wRvO11NWNJRtlz/ZpzaktO4qO1SXrMATDJvJBadIvn4HEf50yaQcYEkjTRp+AtQKNFYdn1NXJWhO5rCWYjzR4TNjcCTdfqSWaFljQr/oCRCrk3mTVa4+VX7/ZONqacAHEVmJjISUU+xG9KfyhgspQbvvWj/hQp+nb/00h6b8POc2l8ARoX1KujUaNk+5XOqGOj/VTFta7wQ4/WV+arzHIWiaO3B3VPxLdHC/dLvm0E7V8YfZjpaciffpwOjO5maJCkcLd6o6j0i38gK/ZuiUw3NJoWIUMZRlufojQ6jT/VhH8rfSnqQLT16gAAAABJRU5ErkJggg==) no-repeat;
+        }
+        .game-option-showanswer .game-option-rightanswer:before {
+            content: ' ';
+            position: absolute;
+            left: 120px;
+            top: -150px;
+            width: 246px;
+            height: 176px;
+            background: url(img/answer.png) no-repeat;
+        }
+        .game-option-wrong:after {
+            content: ' ';
+            position: absolute;
+            left: 28px;
+            top: 3px;
+            width: 72px;
+            height: 71px;
+            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABHCAMAAACTZfGgAAAAilBMVEUAAADZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRnjZRniMW81NAAAALXRSTlMABfsK9RvxD8YV67AzQMy/oNLDO+ItI+bcqJNWmHnXuI5/aGRHKG5PhnRfW0p+M3tjAAADvUlEQVRYw51Y13aCQBSkdxEpAVQQkNji/v/vxeNWtiA4L8khMNw7O3eWjbYEuv8bRVkWRT+69h1+Dn2SVhYgcM6rOfxr5zlAxGZdJY1nADn2y1ncIQZq3JbS2J0DZuD8LFRmL2vJCKo4Tr24rU7RMp4LV01w6oZn4a5e7C1LkicPW/sKz4CytP2v9i3uBpGkzrTvcSM0iXxh/PG+T5Kuf8zX2mAer5Caot8xFgj/TBXPHy7nLl2FmjdF0MuX8hfNZZlJmwqAiOCuS2ICzUQlV+cOpNiJ5uyRcxS+6YAc1sAracHrhULADao3ac6Pe7e1lFGwh1cHtcUs4HRk1c1HSpgSVigXvmI7lyyFOa2RBM2RnVS48IW2BgNusKHXvPeFUFuHIkdMI5Eamm31eNnI64E9MXUu2tD/FIItmPSyl2a6GwLgCb46x/nRpTWVkOnJSnTgHjm+y+Sc3nBibqAqFfQAHCR+OKCUZaEJywt8wfPnt73g4vMTiJWMmL6AQKRXME/fgy/X+oGzh6zmwUCBxd52oNtvASdZmXQW2qOvBplssfLk9Vv2/i2VbE2Y6b0oI+IpoZhcv44+Q6Sd0bPG4bU+FtIMqi8M6maOSPvDTI/IQYqJWRbCLwK1RqwuwEI/Msn0vv9yetkTtq5JMUIGqruIAj+vy3xEvetQHuMp/SyEVZuaViJnywHVQZpLAT35yk+Ym1cFEZwnMUH5OIvQeIJeFbI7Lp8FpDjOhrn3uR6gqKVMMawIy25Jd3NzC1iEsptaonGgFEk/4f0Z6yRhckgk1FABCU+I9xwfd+i5QnRDy9MocEyBp8Yqv7TCe2LMJjl9OmXm7sETHVmNTdzlzubvopFfS8etwwrr0z6rKVPJRP5IdzqKG9GX7/Q0mWvoepddwViSocAzqWa4V1bNLeWmsX4QbgCxK362ODr3xUP1NWGjpctP0I5boxt3rNF30GYmt9PsucSubCE0t95FzPWeMreC3jcLnDge1Tds4Aq9BjZTNtVUnQzip16CxFU+rZ5Eb8qeE/stAvWV9StPwnohk4mdfhb36DU12TH3NSrKBFL/M0+Uz7xWx3GYR5/kaQz8Unmw4vgyen22HA/QiZbCJRHdjksO4ok+txS46Kdc5I7u4s38iZRgd+FVN6/MCTC4zgt5DSiVkfajjTvK7qEFKLb2R4ecuFNZ2Xpx60wvOoO2AIcczMNI/IX2b4I5mnDFQcq8VAoaZ7/2fxSbYymwWDU88a9FNBxjAzdUhc3G1L6HbkfZmEX2p0z4B7TXD/kqoKZDAAAAAElFTkSuQmCC) no-repeat;
+        }
+        .result-wrap {
+            width: 100%;
+            height: 100%;
+            min-height: 1150px;
+            display: -webkit-box;
+            -webkit-box-align: center;
+            -webkit-transition: all .25s ease-out;
+        }
+        .result-content {
+            width: 100%;
+            height: 1150px;
+            position: relative;
+            background: url(img/resultbg.jpg) no-repeat center center;
+            padding-top: 335px;
+            text-align: center;
+        }
+        .result-total {
+            font-size: 102px;
+            line-height: 130px;
+            color: #f8cf37;
+            letter-spacing: 10px;
+        }
+        .result-text {
+            font-size: 36px;
+            height: 150px;
+        }
+        .result-btn1 {
+            display: block;
+            height: 130px;
+            width: 580px;
+            margin: 10px auto 0;
+        }
+        .result-btn2 {
+            margin: 140px auto 0;
+            width: 650px;
+        }
+        .result-btn21 {
+            float: left;
+            width: 330px;
+            height: 120px;
+        }
+        .result-btn22 {
+            float: left;
+            width: 320px;
+            height: 120px;
+        }
+
+    </style>
+</head>
+<body ontouchstart="">
+    <div class="cover-wrap js-cover">
+        <div class="cover-content">
+            <div class="music-control music-on js-music-control"></div>
+            <div class="cover-start js-start"></div>
+        </div>
+    </div>
+    <div class="game-wrap js-game" style="display:none">
+        <div class="game-content">
+            <div class="game-help js-share"></div>
+            <div class="game-question-box">
+                <div class="game-question-list js-game-list">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="result-wrap js-result" style="display: none;">
+        <div class="result-content">
+            <div class="result-total js-result-total"></div>
+            <div class="result-text js-result-text"></div>
+            <a class="result-btn1" href=""> </a>
+            <div class="result-btn2">
+                <a class="result-btn21" href="javascript:location.reload();"> </a>
+                <div class="result-btn22 js-share"> </div>
+            </div>
+        </div>
+    </div>
+    <div id="shareBoxLayout"></div>
+    <div class="music-player">
+        <audio class="js-music-audio" loop="loop" autoplay="autoplay">
+            <source src="audio/bg.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+    <script type="text/javascript">
+                document.addEventListener('WeixinJSBridgeReady', function() {
+                    WeixinJSBridge.on('menu:share:timeline', function() {
+                        WeixinJSBridge.invoke('shareTimeline', {
+                            "img_url": 'http://static.17getfun.com/cartoongame/img/pic/1.jpg',
+                            "link": location.href,
+                            "desc": 'hahahahaha',
+                            "title": 'heieheihei'
+                        }, function() {
+                            //self.shareConfig.callback();
+                        });
+                    });
+                    /*WeixinJSBridge.on('menu:share:appmessage', function() {
+                        WeixinJSBridge.invoke('sendAppMessage', {
+                            "img_url": self.shareConfig.img,
+                            "link": self.shareConfig.url,
+                            "desc": self.shareConfig.desc,
+                            "title": self.shareConfig.title
+                        }, function() {
+                            self.shareConfig.callback();
+                        });
+                    });
+                    WeixinJSBridge.on('menu:share:weibo', function() {
+                        WeixinJSBridge.invoke('shareWeibo', {
+                            "desc": self.shareConfig.wbText,
+                            "url": self.shareConfig.url
+                        }, function(res) {
+                            self.shareConfig.callback();
+                        });
+                    });
+                    WeixinJSBridge.on('menu:share:qq', function() {
+                        WeixinJSBridge.invoke('shareQQ', {
+                            "img_url": self.shareConfig.img,
+                            "link": self.shareConfig.url,
+                            "desc": self.shareConfig.desc,
+                            "title": self.shareConfig.title
+                        }, function(res) {
+                            self.shareConfig.callback();
+                        });
+                    });
+                    WeixinJSBridge.on('menu:share:QZone', function() {
+                        WeixinJSBridge.invoke('shareQZone', {
+                            "img_url": self.shareConfig.img,
+                            "link": self.shareConfig.url,
+                            "desc": self.shareConfig.desc,
+                            "title": self.shareConfig.title
+                        }, function(res) {
+                            self.shareConfig.callback();
+                        });
+                    });*/
+                }, false);
+    </script>
+    <script type="text/javascript" src="http://static.17getfun.com/cartoongame/zepto.min.js"></script>
+    <script type="text/javascript">
+    (function() {
         /* Fix viewport*/
         (function(f,u){var o=navigator.userAgent,r=750,e=f.innerWidth||r,g=f.outerHeight||e,q=f.screen.width||e,d=f.screen.availWidth||e,n=f.innerHeight||r,p=f.outerHeight||n,a=f.screen.height||n,k=f.screen.availHeight||n,l=Math.min(e,g,q,d,n,p,a,k),h=l/r,b=f.devicePixelRatio;h=Math.min(h,b);if(h<1){var t=",initial-scale="+h+",maximum-scale="+h,c=u.getElementsByTagName("meta"),j;if(/iphone|ipod/ig.test(o)){j=",user-scalable=no"}if(/android/ig.test(o)){j=""}t+=j||"";if(/zenlife-android-webview/.test(o)&&!/viewport/.test(o)){document.querySelector('html').style.zoom = h}if(top.location!=location){document.querySelector('html').style.zoom = h};for(var s=0,m;s<c.length;s++){m=c[s];if(m.name=="viewport"){m.content+=t}}}}).call(this,window,document);
-        </script>
-        
-        <link rel="stylesheet" type="text/css" href="http://img6.cache.netease.com/utf8/3g/awards15/1.1.4/main.css" />
-    </head>
-    <body class="intro" ontouchstart="">
-        <section class="page-open-newsapp js-open-newsapp" style="display:none"></section>
-        <section class="page-top"><img src="http://img6.cache.netease.com/3g/img15/awards15/2/1130/tdzrd.jpg"></section>
-        <section class="intro-content">
-            <p>2015年度网易有态度人物盛典，是由网易发起的年度人物评选活动，有态度人物盛典是目前国内最具权威的年度盛典之一。vivo智能手机秉持“乐趣、活力”的品牌价值观，在2015年与网易持续深化品牌战略合作，并共同举办“ 2015vivo网易有态度人物盛典”。vivo智能手机从用户本身及产品体验出发，于今年12月正式推出“够快才畅快”年度旗舰新品vivo X6，以解决稳定、流畅、续航、安全的四个用户痛点为使命，给予用户们更多惊喜和想象！</p>
-            <div class="intro-content-img"><img src="http://img1.cache.netease.com/gongyi/2015/12/3/2015120312151584f67.jpg"></div>
-            <p>本届盛典以时下最具影响力的“态度 标签”热词做维度，由评审团评分和网友投票为依据综合评定产生，评选出年度最有态度代表人物。网友可通过网易新闻客户端以及美拍、nice好赞、考拉海购、百度贴吧、墨迹天气、爱奇艺、蚂蜂窝、乐动力、等8大热门APP，为态度候选人畅快投票。</p>
-        </section>
-        <section class="intro-title"><h2>八大战略合作伙伴</h2></section>
-        <section class="intro-app">
-            <ul>
-                <li>
-                    <div class="intro-app-icon"><img src="http://img6.cache.netease.com/3g/img15/awards15/2/app/1.png"></div>
-                    <div class="intro-app-info">
-                        <h3>百度贴吧</h3>
-                        <p>所谓得粉丝者得天下，把你爱的Ta送到网易有态度人物盛典现场。</p>
-                        <!--<div class="intro-app-arr"></div>-->
-                    </div>
-                </li>
-                <li>
-                    <a href="http://m.kaola.com/activity/h5/4984.html">
-                        <div class="intro-app-icon"><img src="http://img6.cache.netease.com/3g/img15/awards15/2/app/2.png"></div>
-                        <div class="intro-app-info">
-                            <h3>考拉</h3>
-                            <p>为你欣赏的逆袭者投票加油，你的点赞将决定TA是否来到网易有态度人物盛典现场。</p>
-                            <div class="intro-app-arr"></div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <div class="intro-app-icon"><img src="http://img6.cache.netease.com/3g/img15/awards15/2/app/3.png"></div>
-                    <div class="intro-app-info">
-                        <h3>美拍</h3>
-                        <p>你敢zuo吗？你敢乐吗？添加话题#敢zuo敢乐#帮你喜欢的TA上网易有态度人物盛典。</p>
-                        <!--<div class="intro-app-arr"></div>-->
-                    </div>
-                </li>
-                <li>
-                    <div class="intro-app-icon"><img src="http://img6.cache.netease.com/3g/img15/awards15/2/app/4.png"></div>
-                    <div class="intro-app-info">
-                        <h3>乐动力</h3>
-                        <p>爱拼才会赢！登录乐动力，用脚步为网易有态度人物盛典的敢“拼”人物投票。</p>
-                        <!--<div class="intro-app-arr"></div>-->
-                    </div>
-                </li>
-                <li>
-                    <a href="http://www.iqiyi.com/u/1232742846">
-                        <div class="intro-app-icon"><img src="http://img6.cache.netease.com/3g/img15/awards15/2/app/5.png"></div>
-                        <div class="intro-app-info">
-                            <h3>爱奇艺</h3>
-                            <p>轻触播放按钮，享受酣畅体验，做有态度的观影者。</p>
-                            <div class="intro-app-arr"></div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="http://m.oneniceapp.com/paster/4935?tid=wangyi">
-                        <div class="intro-app-icon"><img src="http://img6.cache.netease.com/3g/img15/awards15/2/app/6.png"></div>
-                        <div class="intro-app-info">
-                            <h3>nice好赞</h3>
-                            <p>玩转nice好赞有态度贴纸，做最有态度的nice好赞玩家。</p>
-                            <div class="intro-app-arr"></div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="http://cdn.moji.com/f5/netease_attitude/netease.html">
-                        <div class="intro-app-icon"><img src="http://img6.cache.netease.com/3g/img15/awards15/2/app/7.png"></div>
-                        <div class="intro-app-info">
-                            <h3>墨迹天气</h3>
-                            <p>天气太过任性，“墨迹”一手搞定。网易有态度人物盛典的“任性”领袖你来决定。</p>
-                            <div class="intro-app-arr"></div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <div class="intro-app-icon"><img src="http://img6.cache.netease.com/3g/img15/awards15/2/app/8.png"></div>
-                    <div class="intro-app-info">
-                        <h3>蚂蜂窝</h3>
-                        <p>不妥协于既定的旅行路线，自由行走，自由选择你心中的“不妥协”年度人物。</p>
-                        <!--<div class="intro-app-arr"></div>-->
-                    </div>
-                </li>
-            </ul>
-        </section>
-        <section class="intro-link"><a href="http://sale.jd.com/m/act/r4pzimsHxjnR.html">vivo X6 够快才畅快 &gt;</a></section>
-        <script src="http://img3.cache.netease.com/utf8/3g/libs/zepto_1.1.6.min.js"></script>
-        <script src="http://img6.cache.netease.com/utf8/3g/awards15/1.1.4/utils.js"></script>
-        
-        
-        <script type="text/javascript">
-        (function() {
-            //回流到专题页
-            if(!NTES.newsApp.isNewsApp) {
-                $('.js-open-newsapp').show().click(function() {
-                    window.open('http://m.163.com/newsapp/applinks.html?url=' + encodeURI('http://c.3g.163.com/nc/qa/activity/attitude2015/attitudeupdate2015.html'));
-                });
+
+        var CartoonGame = function() {
+            var self = this;
+
+            //题库
+            this.questionList = [{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/1.jpg',    //图片
+                hint: '最受不了女孩子哭，听到“给我坐下”就会摔倒，每到朔月之夜会变成人类，他是...',   //提示描述文案 换行使用<br>
+                options: ['犬夜叉','杀生丸','巴卫'],    //按顺序对应ABC
+                answerIndex: '0' //序号，0-A 1-B 2-C
+            },{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/2.jpg',
+                hint: '它带来幸福的数码兽，它是由巴达兽进化而成，必杀技是“天堂之拳”，它是...',
+                options: ['天女兽','天使兽','神圣天使兽'],
+                answerIndex: '1'
+            },{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/3.jpg',
+                hint: '她是成龙表侄女，从小就跟着成龙一起历险，动画中她曾和成龙互换过身体，她是...',
+                options: ['小可','小玉','拉苏'],
+                answerIndex: '1'
+            },{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/4.jpg',
+                hint: '他自我感觉良好、比较高傲，他最喜欢音乐和麦云洁，他是很多人小时候男神的启蒙，他是...',
+                options: ['叶峰','石小松','楚天歌'],
+                answerIndex: '2'
+            },{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/5.jpg',
+                hint: '他玩石头剪刀布永远只能出石头，他最爱的食物是铜锣烧，一旦男主幸福了，他必须返回22世纪，他是...',
+                options: ['野比大助','野比大雄','哆啦A梦'],
+                answerIndex: '2'
+            },{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/6.jpg',
+                hint: '他是十二生肖里的鼠，他被称为“王子”，是个学霸，他一遇到生肖故事中的猫就炸毛，他是...',
+                options: ['草摩由希','草摩紫吴','草摩波鸟'],
+                answerIndex: '0'
+            },{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/7.jpg',
+                hint: '他在team里个子第二高，喜欢戴帽子，他喜欢唱“Bup-a-tum,bup-a-tum”，他代表的是美国黑种人，他是...',
+                options: ['丁丁','迪西','拉拉'],
+                answerIndex: '1'
+            },{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/8.jpg',
+                hint: '她是白富美，富二代，她精灵古怪，美丽多情，她是哪吒除魔降妖路上的好帮手，她是...',
+                options: ['鲤鱼精','小龙女','龙王三太子'],
+                answerIndex: '1'
+            },{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/9.jpg',
+                hint: '他和六个魔女老婆开创魔界新世纪，他被六个老婆联合起来整，他用黑色的心作为种族能量来源，他是...',
+                options: ['欧葛尔','格拉斯','皮耶尔'],
+                answerIndex: '1'
+            },{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/10.jpg',
+                hint: '她麻利、充满男子汉气概，她总是用拳头代替语言，她是团队中唯一没有被设定特殊能力的，她是...',
+                options: ['毛毛','花花','泡泡'],
+                answerIndex: '0'
+            },{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/11.jpg',
+                hint: '他长得像芒果台李维嘉，他的目标是战胜蓝猫成为男主角，他的口头禅是为什么每次受伤的总是我啊，他是...',
+                options: ['菲菲','淘气','肥仔'],
+                answerIndex: '0'
+            },{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/12.jpg',
+                hint: '他总是晕倒，他被女主爱慕着，他和女主的哥哥有暧昧关系，他是...',
+                options: ['雪兔','桃矢','李小狼'],
+                answerIndex: '0'
+            },{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/13.jpg',
+                hint: '他战斗力一直是真选组第一，他外表呆萌实则内在抖S腹黑，他经常戴着红底眼罩，他是...',
+                options: ['近藤勋','土方十四郎','冲田总悟'],
+                answerIndex: '2'
+            },{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/14.jpg',
+                hint: '他是最热门的路飞最终对手，他干掉了白胡子，他是唯一拥有两个恶魔果实的人，他是...',
+                options: ['马歇尔·D·汀奇','阿巴罗·皮萨罗','巴克斯·乔特'],
+                answerIndex: '0'
+            },{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/15.jpg',
+                hint: '她是三无娘，她本质是人形联络装置，她食欲旺盛，她是...',
+                options: ['雾岛','朝比奈实玖瑠','长门有希'],
+                answerIndex: '2'
+            },{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/16.jpg',
+                hint: '她被称为“天空的巫女”，她是剧设最可爱的女孩子，她擅长治愈类魔法的后援，她是...',
+                options: ['艾露莎·舒卡勒托','露西·哈特菲利亚','温蒂·玛贝尔'],
+                answerIndex: '2'
+            },{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/17.jpg',
+                hint: '她喜欢用命令的语气，她是第一个与樱田纯缔结契约的蔷薇少女，她爱喝红茶，她是...',
+                options: ['真红','苍星石','金丝雀'],
+                answerIndex: '0'
+            },{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/18.jpg',
+                hint: '他与火焰恶魔定下契约，他向往自由、孩子气，在遇到女主之前，他胆小、虚荣、爱闹情绪，他是...',
+                options: ['金闪闪','哈尔','琥珀川'],
+                answerIndex: '1'
+            },{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/19.jpg',
+                hint: '他是剧中的负重担当，他曾是叱诧风云的高富帅，片尾曲中最知名的是它，他是...',
+                options: ['敖烈','敖丙','敖闰'],
+                answerIndex: '0'
+            },{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/20.jpg',
+                hint: '他性格豪放磊落，他败给星矢只因故意放水，他被称赞为十二宫中最勇猛的人，他是...',
+                options: ['阿鲁迪巴','穆','迪斯马斯克'],
+                answerIndex: '0'
+            },{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/21.jpg',
+                hint: '他出现在迪迦奥特曼，他是使天空崩裂的怪兽，他和怪兽基友一起打坏了奥特曼石像，他是...',
+                options: ['哥尔赞','加库玛','美尔巴'],
+                answerIndex: '2'
+            },{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/22.jpg',
+                hint: '他具有隐身术，他虽然聪明机灵但是太顽皮，他能够在被金蛇冰封的情况下透体而出，他是...',
+                options: ['四娃','五娃','六娃'],
+                answerIndex: '2'
+            },{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/23.jpg',
+                hint: '他是小当家的师傅，他料理一流却十分严肃，他在龙虾三争霸中被师弟陷害，他是...',
+                options: ['赵瑜','李炎','解七'],
+                answerIndex: '0'
+            },{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/24.jpg',
+                hint: '是小时候的英雄，他吃了菠菜就力大无穷，他经常被妈妈拿来做吃菠菜的榜样，他是...',
+                options: ['奥利沃','波比','布鲁托'],
+                answerIndex: '1'
+            },{
+                img: 'http://static.17getfun.com/cartoongame/img/pic/25.jpg',
+                hint: '他的武器是双叉，他在问题产生前就解决它，他喜欢打曲棍球，他是...',
+                options: ['多纳泰罗','拉斐尔','米开朗基罗'],
+                answerIndex: '1'
+            }];
+
+            //答案文案
+            this.resultList = [
+                '你一定是来卧底的70后！快来盖范<br>国补补脑吧，这里全都是90后',
+                '不及格！你的童年都让狗吃了吗？<br>快来盖范国补补脑',
+                '关爱童年人人有责！<br>快来盖范国找回你的童年！',
+                '每按一个按钮手指都在颤抖，终于证明<br>自己是90后，快来盖范国当学霸',
+                '我就喜欢你看不惯我 还要和我一起建设<br>社会主义的样子！来盖范领取装逼许可证！',
+                '把时间浪费在美好的事物上！<br>盖范国青春美好等你穿越',
+                '猴赛雷！通关成功！<br>恭喜你获得盖范国SVIP装逼通行证'
+            ];
+
+
+            //分享文案
+            this.shareConfig = {        
+                title: '那些陪伴90后成长的动画片', //标题
+                desc: '快来通关答题！',   //描述（分享给朋友时候显示，朋友圈没有）
+                url: location.href, //链接
+                img: '',    //图片
+                callback: function () {
+                    self.hideShareBoxLayout();
+                }
             }
-        })();
-        </script>
-        <script type="text/javascript" src="http://img5.cache.netease.com/3g/img15/share/share.1.1.js"></script>
-        <script type="text/javascript">
-        (function() {
-            window.shareWidget = new NTESShare({
-                title: '网易有态度人物盛典-态度最热点',
-                desc: '不妥协、拼、任性……看8大热门APP与网易有态度人物盛典碰撞出怎样的火花？',
-                url: location.origin + location.pathname,
-                img: 'http://img6.cache.netease.com/3g/img15/awards15/2/share1130.png'
-            });
-        })();
-        </script>
-        <!-- START NetEase Devilfish 2006 -->
-        <script src="http://analytics.163.com/ntes.js" type="text/javascript"></script>
-        <script>
-            (function(){
-                var search, spsw, spss, spsf, ua, referer, spst;
-                ua = navigator.userAgent;
-                referrer = document.referrer;
-                search = NTES.localParam().search;
-                spsf = search.f || ''
-                if (ua.match(/micromessenger/gi)) {
-                spsf = 'wx';
-                } else if (ua.match(/weibo/gi)) {
-                spsf = 'wb';
-                } else if (ua.match(/yixin/gi)) {
-                spsf = 'yx';
-                } else if (ua.match(/qq/gi)) {
-                spsf = 'qq';
+
+
+            //分享提示层
+            this.shareBoxLayout = document.getElementById('shareBoxLayout');
+
+            this.total = 0; //总分
+            this.unit = 100 / this.questionList.length; //每题得分
+            this.progress = 0;  //答题进度
+            this.gameList = $('.js-game-list'); //题目列表
+            this.cover = $('.js-cover');
+            this.game = $('.js-game');
+            this.result = $('.js-result');
+
+
+            this.init();
+        };
+        CartoonGame.prototype = {
+            constructor: CartoonGame,
+
+            init: function() {
+                this.buildHTML();
+                this.bindEvent();
+            },
+
+            buildHTML: function() {
+                //题库
+                var questionListHTML = [];
+                for(var i = 0; i < this.questionList.length; i++) {
+                    var item = this.questionList[i];
+                    var optionHTML = [];
+                    for(var j = 0; j < item.options.length; j++) {
+                        //每个选项 正确的加入正确答案标记
+                        optionHTML.push('<div class="game-option-item disabled ' + (j == item.answerIndex ? 'game-option-rightanswer' : '') + '" data-index=' + j + '>' + item.options[j] + '</div>');
+                    }
+                    questionListHTML.push('<div class="game-question-item"><div class="game-hint">' + item.hint + '</div><div class="game-pic"><img src="' + item.img + '"></div><div class="game-option-list js-game-item">' + optionHTML.join('') + '</div></div>');
                 }
-                if(referrer.match(/weibo\.com/)){
-                spsf = 'wb'
-                }else if(referrer.match(/qq\.com/) || referrer.match(/qzone\.com/)){
-                spsf = 'qq'
+                this.gameList.html(questionListHTML.join(''))
+                    .width(600 * this.questionList.length);
+                this.gameItemList = $('.js-game-item');   //所有的选项
+            },
+
+            bindEvent: function() {
+                var self = this;
+                
+                //设置分享
+                document.addEventListener('DOMContentLoaded', function() {
+                    //self.setWeixinJSBridge();
+                });
+
+                this.shareBoxLayout.addEventListener('click', function() {
+                    self.shareConfig.callback();
+                });
+
+                //开始闯关
+                $('.js-start').click(function() {
+                    self.changePage(self.cover, self.game);
+                    self.showQuestion();
+                });
+
+                //点击答题
+                $('.js-game-item > div').click(function() {
+                    var userSelection = $(this);
+                    var answerIndex = self.questionList[self.progress].answerIndex;
+
+                    //禁止点击状态点击无效
+                    if ($(this).hasClass('disabled')) {
+                        return;
+                    }
+
+                    //选中一个答案后设为禁止点击状态，避免重复选择
+                    self.gameItemList.eq(self.progress).find('div').addClass('disabled');
+
+                    if(userSelection.data('index') == answerIndex) {
+                        userSelection.addClass('game-option-right');
+                        self.total += self.unit;    //答对增加得分
+                        //答对快速进入下一题
+                        self.progress++;
+                        setTimeout(function() {
+                            self.showQuestion();
+                        }, 500);
+                    } else {
+                        userSelection.addClass('game-option-wrong');
+                        //显示正确答案
+                        userSelection.parent().addClass('game-option-showanswer');
+                        //答错稍微停留让用户看清正确答案后进入下一题
+                        self.progress++;
+                        setTimeout(function() {
+                            self.showQuestion();
+                        }, 1500);
+                    }
+                });
+                
+                //显示分享提示的按钮（包括场外求助、分享等，分享内容是随时准备好的，和显示提示无关）
+                $('.js-share').click(function() {
+                    self.showShareBoxLayout();
+                });
+
+                //音乐控制
+                var musicControl = $('.js-music-control');
+                var musicAudio = $('.js-music-audio');
+                //如果被禁止了播放，比如部分微信里，则显示停止状态，让用户去控制
+                if (musicAudio.paused || musicAudio.ended) {
+                    musicControl.removeClass('music-on').addClass('music-off');
                 }
-                spsw = search['w'] || 1
-                spst = 0;
-                neteaseTracker(false,'http://sps.163.com/special/?spst=2' + '&spss=newsapp&modelid=3gtaidu' + '&spsw=' + spsw + '&spsf=' + spsf,'', 'sps' )
-            })()
-            
-            _ntes_nacc = "mapp";
-                setTimeout(function(){
-                neteaseTracker();
-            },2000);
-        </script>
-        <!-- END NetEase Devilfish 2006 -->
-    </body>
+                musicControl.click(function() {
+                    if (musicControl.hasClass('music-on')) {    //播放中状态下点击，停止
+                        musicControl.removeClass('music-on').addClass('music-off');
+                        musicAudio[0].pause();
+                    } else {    //开始播放
+                        musicControl.removeClass('music-off').addClass('music-on');
+                        musicAudio[0].play();
+                    }
+                });
+            },
+
+            /**
+             * 页面切换
+             *
+             * @method changePage
+             */
+            changePage: function(pagePre, pageNext) {
+                pagePre.css('opacity', '0');
+                pageNext.css('opacity', '0');
+                setTimeout(function() {
+                    pagePre.hide();
+                    pageNext.show().css('opacity', '1');
+                }, 250);
+            },
+
+            /**
+             * 显示题目
+             *
+             * @method showQuestion
+             */
+            showQuestion: function() {
+                if (this.progress < this.questionList.length) {  //显示下一题
+                    this.gameList.css('transform', 'translate3d(-' + 600 * this.progress + 'px, 0px, 0px)');
+                    //更新分享文案
+                    this.shareConfig.title = 'TA是谁？那些陪伴90后成长的动画片，快来帮朕通关答题！';
+                    this.shareConfig.img = this.questionList[this.progress].img;
+                    this.gameItemList.eq(this.progress).find('div').removeClass('disabled');
+                    console.log(this.shareConfig)
+                } else {    //答完显示结果
+                    this.showResult();
+                }
+            },
+
+            /**
+             * 显示结果
+             *
+             * @method showResult
+             */
+            showResult: function() {
+                var resultText = '';
+                if (this.total < 10) {
+                    resultText = this.resultList[0];
+                } else if (this.total < 50) {
+                    resultText = this.resultList[1];
+                } else if (this.total < 60) {
+                    resultText = this.resultList[2];
+                } else if (this.total < 80) {
+                    resultText = this.resultList[3];
+                } else if (this.total < 90) {
+                    resultText = this.resultList[4];
+                } else if (this.total < 100) {
+                    resultText = this.resultList[5];
+                } else {
+                    resultText = this.resultList[6];
+                }
+                $('.js-result-total').html(this.total + '分');
+                $('.js-result-text').html(resultText);
+                //更新分享文案
+                this.shareConfig.title = this.total + '分！' + resultText.replace('<br>', '');
+                this.shareConfig.img = '';
+                //显示结果页
+                this.changePage(this.game, this.result);
+            },
+
+            /**
+             * 显示分享提示
+             *
+             * @method showShareBoxLayout
+             */
+            showShareBoxLayout: function() {
+                this.shareBoxLayout.style.display = 'block';
+            },
+
+            /**
+             * 隐藏分享提示
+             *
+             * @method hideShareBoxLayout
+             */
+            hideShareBoxLayout: function() {
+                this.shareBoxLayout.style.display = 'none';
+            },
+
+            /**
+             * 设置微信分享
+             *
+             * @method setWeixinJSBridge
+             */
+            setWeixinJSBridge: function() {
+                var self = this;
+                //所有分享信息都通过this.shareConfig实时获取，updateShareConfig之后能获得最新的文案
+                document.addEventListener('WeixinJSBridgeReady', function() {
+                    WeixinJSBridge.on('menu:share:timeline', function() {
+                        WeixinJSBridge.invoke('shareTimeline', {
+                            "img_url": self.shareConfig.img,
+                            "link": self.shareConfig.url,
+                            "desc": self.shareConfig.desc,
+                            "title": self.shareConfig.title
+                        }, function() {
+                            self.shareConfig.callback();
+                        });
+                    });
+                    WeixinJSBridge.on('menu:share:appmessage', function() {
+                        WeixinJSBridge.invoke('sendAppMessage', {
+                            "img_url": self.shareConfig.img,
+                            "link": self.shareConfig.url,
+                            "desc": self.shareConfig.desc,
+                            "title": self.shareConfig.title
+                        }, function() {
+                            self.shareConfig.callback();
+                        });
+                    });
+                    WeixinJSBridge.on('menu:share:weibo', function() {
+                        WeixinJSBridge.invoke('shareWeibo', {
+                            "desc": self.shareConfig.wbText,
+                            "url": self.shareConfig.url
+                        }, function(res) {
+                            self.shareConfig.callback();
+                        });
+                    });
+                    WeixinJSBridge.on('menu:share:qq', function() {
+                        WeixinJSBridge.invoke('shareQQ', {
+                            "img_url": self.shareConfig.img,
+                            "link": self.shareConfig.url,
+                            "desc": self.shareConfig.desc,
+                            "title": self.shareConfig.title
+                        }, function(res) {
+                            self.shareConfig.callback();
+                        });
+                    });
+                    WeixinJSBridge.on('menu:share:QZone', function() {
+                        WeixinJSBridge.invoke('shareQZone', {
+                            "img_url": self.shareConfig.img,
+                            "link": self.shareConfig.url,
+                            "desc": self.shareConfig.desc,
+                            "title": self.shareConfig.title
+                        }, function(res) {
+                            self.shareConfig.callback();
+                        });
+                    });
+                }, false);
+            }
+
+        };
+
+        new CartoonGame();
+
+
+    })();
+    </script>
+</body>
 </html>
